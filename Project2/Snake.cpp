@@ -53,7 +53,16 @@ void draw() {
 				cout << "F";
 			}
 			else {
+				bool print = false;
+				for (int k = 0; k < nTail; k++) {
+					if (tailX[k] == j && tailY[k] == i) {
+						cout << "o";
+						print = true;
+					}
+				}
+				if (!print) {
 				cout << " ";
+			}
 			}
 		}
 		cout << endl;
@@ -86,6 +95,21 @@ void input() {
 	}
 };
 void logic() {
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+	for (int i = 1; i < nTail; i++) {
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+
+	}
+
 	switch (dir)
 	{
 	case LEFT:
@@ -105,6 +129,10 @@ void logic() {
 	}
 	if (x > width || x < 0 || y > height || y < 0 ) {
 		gameover = true;
+	}
+	for (int i = 0; i < nTail; i++) {
+		if (tailX[i] == x && tailY[i] == y)
+			gameover = true;
 	}
 	if (x == fruitx && y == fruity) {
 		score = score + 50;
